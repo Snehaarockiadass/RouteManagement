@@ -1,0 +1,59 @@
+package com.example.demo.bl;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
+
+import com.example.demo.dl.DestinationDL;
+import com.example.demo.entity.Destination;
+import com.example.demo.entity.DropPoint;
+import com.example.demo.repo.DestinationRepo;
+
+@Component
+public class DestinationBL {
+
+	@Autowired
+	private DestinationDL dlLayer;
+
+	public List<Destination> findAll() {
+		return dlLayer.findAll();
+	}
+
+//	public List<DropPoint> addDestinationByDropPoint(int destId, List<DropPoint> dropPoint) {
+//		return dlLayer.addDestinationByDropPoint(destId, dropPoint);
+//	}
+
+	public Optional<Destination> findById(Integer id) {
+		return dlLayer.findById(id);
+	}
+
+	public void deleteById(Destination deleteInfo) {
+		dlLayer.deleteById(deleteInfo);
+	}
+
+	public int hashCode() {
+		return dlLayer.hashCode();
+	}
+
+	public boolean equals(Object obj) {
+		return dlLayer.equals(obj);
+	}
+
+	public String toString() {
+		return dlLayer.toString();
+	}
+
+	public Destination addDestination(Destination entity) {
+		// TODO Auto-generated method stub
+		return this.dlLayer.addDestination(entity);
+	}
+
+	public List<Destination> getRoute() {
+		// TODO Auto-generated method stub
+		return this.dlLayer.getRoute();
+	}
+
+}
