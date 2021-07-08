@@ -69,38 +69,57 @@ public class DestinationController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(post);
 	}
 
-	@GetMapping(path = "/managingRoute/name/{destination}")
-	public List<Destination> getByDestName(@PathVariable("destination") String destination) {
-		return this.dlLayer.findByDestination(destination);
-	}
+//	@GetMapping(path = "/managingRoute/name/{destination}")
+//	public List<Destination> getByDestName(@PathVariable("destination") String destination) {
+//		return this.dlLayer.findByDestination(destination);
+//	}
+	
+	
+	@PutMapping(path="/deleteRouteInfo/{destination}")
+    public ResponseEntity<Destination> deleteRoute(@PathVariable("destination") String destination)
+    {      
+           
+		Destination RouteInfo=this.dlLayer.deleteRoute(destination);
+       
+        return ResponseEntity.status(HttpStatus.OK).body(RouteInfo);
+    }
+	
+	
+	
+	
+	
+	
+	
+	
 
-	@PutMapping(path = "/managingRoute/delete/{destId}")
-	public ResponseEntity<Destination> deleteBy(@PathVariable("destId") Integer destId,
-			@RequestBody Destination deleteInfo) {
-
-		
-		Destination isDeleteFlag=deleteInfo;
-		isDeleteFlag.setIsDeleted('1');
-		
-		Destination modifiedBy=deleteInfo;
-    	modifiedBy.setModifiedBy("Admin");
-    	
-    	Destination modifiedDate=deleteInfo;
-    	modifiedDate.setModifiedDate(LocalDate.now());
-		
-		
-		
-		Optional<Destination> entity = blLayer.findById(destId);
-		Destination deleteHistory = null;
-		if (entity.isPresent()) {
-			deleteHistory = entity.get();
-			this.blLayer.deleteById(deleteInfo);
-		} else {
-			throw new NoSuchElementException("No such element to delete");
-		}
-
-		return ResponseEntity.status(HttpStatus.OK).body(deleteHistory);
-	}
+//	@PutMapping(path = "/managingRoute/delete/{destination}")
+//	public ResponseEntity<Destination> deleteBy(@PathVariable("destination") Destination destination,
+//			@RequestBody Destination deleteInfo) {
+//
+//		
+//		Destination isDeleteFlag=deleteInfo;
+//		isDeleteFlag.setIsDeleted('1');
+//		
+//		Destination modifiedBy=deleteInfo;
+//    	modifiedBy.setModifiedBy("Admin");
+//    	
+//    	Destination modifiedDate=deleteInfo;
+//    	modifiedDate.setModifiedDate(LocalDate.now());
+//		
+//		
+//		
+//		Optional<Destination> entity = blLayer.deleteByDestination(destination);
+//		//Destination deleteHistory = null;
+//		if (entity.isPresent()) {
+//			//deleteHistory = entity.get();
+//			//this.blLayer.deleteByDestination(deleteInfo);
+//			this.repo.save(deleteInfo);
+//		} else {
+//			throw new NoSuchElementException("No such element to delete");
+//		}
+//
+//		return ResponseEntity.status(HttpStatus.OK).body(deleteInfo);
+//	}
 
 	@GetMapping(path = "/managingRoute/id/{destId}")
 	public ResponseEntity<Destination> getById(@PathVariable("destId") int destId) {

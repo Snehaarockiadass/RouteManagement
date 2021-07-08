@@ -1,5 +1,6 @@
 package com.example.demo.dl;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -40,9 +41,10 @@ public class DestinationDL {
 		return repo.findById(id);
 	}
 
-	public void deleteById(Destination deleteInfo) {
-		repo.deleteById(deleteInfo);
-	}
+//	public Optional<Destination> deleteByDestination(Destination deleteInfo) {
+//		return repo.findByDestination(deleteInfo);
+//		
+//	}
 
 	public List<String> findAllDestName() {
 
@@ -79,11 +81,23 @@ public class DestinationDL {
 		return this.repo.save(destInfo);
 	}
 
-	public List<Destination> findByDestination(String destination) {
-		// TODO Auto-generated method stub
-		return this.repo.findByDestination(destination);
-	}
+//	public List<Destination> findByDestination(String destination) {
+//		// TODO Auto-generated method stub
+//		return this.repo.findByDestination(destination);
+//	}
 
+public Destination deleteRoute(String destination) {
+        
+        Optional<Destination> cab = this.repo.findByDestination(destination);
+        Destination deletedCab = cab.get();
+        deletedCab.setIsDeleted('1');
+        deletedCab.setModifiedBy("Admin");
+
+ 
+
+        deletedCab.setModifiedDate(LocalDate.now());
+        return this.repo.save(deletedCab);
+    }
 }
 
 //	private DestinationRepo repo;

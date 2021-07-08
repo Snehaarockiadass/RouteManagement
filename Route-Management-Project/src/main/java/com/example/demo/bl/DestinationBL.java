@@ -30,9 +30,9 @@ public class DestinationBL {
 		return dlLayer.findById(id);
 	}
 
-	public void deleteById(Destination deleteInfo) {
-		dlLayer.deleteById(deleteInfo);
-	}
+//	public Optional<Destination> deleteByDestination(Destination deleteInfo) {
+//		return dlLayer.deleteByDestination(deleteInfo);
+//	}
 
 	public int hashCode() {
 		return dlLayer.hashCode();
