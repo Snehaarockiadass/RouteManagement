@@ -12,16 +12,9 @@ import com.example.demo.entity.TimeSlot;
 
 public interface DestinationRepo extends MongoRepository<Destination, Integer> {
 
-//	List<Destination> findByDestination(String destination);
-
-	List<Destination> findByDestination(List<Destination> destination);
+Optional<Destination> findByDestination(String destination);
 
 	
-	//Optional<Destination> deleteByDestination(Destination deleteInfo);
-	Optional<Destination> findByDestination(String deleteInfo);
-
-	void save(Optional<Destination> entity);
-
 }
 
 

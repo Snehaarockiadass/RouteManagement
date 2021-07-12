@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 
 public class TimeSlot {
 	
-	private int  id;
+	
 	private LocalTime timeSlot;
 	int isDeleted;
 	String createdBy;

@@ -5,14 +5,14 @@
 
 var xhrRouteDetails = new XMLHttpRequest();
 var destinations;
-document.getElementById("pills-tabContent").addEventListener('click', function() {
+window.onload= function() {
 	event.preventDefault();
 	xhrRouteDetails.open("GET", "http://localhost:6062/api/v1/managingRoute", true);
 
 	xhrRouteDetails.onreadystatechange = routeProcessResponse;
 	xhrRouteDetails.send(null);
 
-});
+};
 
 function routeProcessResponse() {
 	if (xhrRouteDetails.readyState == 4 && xhrRouteDetails.status == 200) {
@@ -26,12 +26,14 @@ function routeProcessResponse() {
 
 		for (var i = 0; i < arr.length; i++) {
 
-
+			if(arr[i].isDeleted != 1) {
+		
+			
 			// creating row and data  
 
 			var trow = document.createElement('tr');
 			// display-shadow       // addingStyle class
-			trow.id = "tr" + rowCounter++;
+			trow.id = "tr" + i;
 
 
 
@@ -111,7 +113,7 @@ function routeProcessResponse() {
 
 			
 
-			divObj3.innerHTML = "<a href='routeNext.html' title='Edit' class='actions-image'><img src='images/edit.svg' alt='edit-icon'/></a><a href='#' title='Delete' class='actions2-image'><img src='images/delete.svg' alt='delete-icon'/></a>"
+			divObj3.innerHTML = "<a href='#' title='Edit' onclick='editData(this)' class='actions-image'><img src='images/edit.svg' alt='edit-icon'/></a><a href='#' title='Delete' class='actions2-image'><img src='images/delete.svg' onclick='deleteData(this)' alt='delete-icon'/></a>"
 
 
 
@@ -127,6 +129,98 @@ function routeProcessResponse() {
 		}
 	}
 }
+}
+
+
+
+ var xhrRouteDetails = new XMLHttpRequest();
+ var delRoute;
+
+var delId;
+ var delrow;
+  function deleteRouteDetails(){
+  
+ 
+  
+    xhrRouteDetails.open("PUT","http://localhost:6062/api/v1/put/"+delRoute,true);
+ 	
+ 	
+ 	xhrRouteDetails.setRequestHeader("Content-Type","application/json");
+ 	xhrRouteDetails.send(null);
+  
+    xhrRouteDetails.onreadystatechange=deleteRouteInfoProcessResponse;  
+ 
+ }
+ 
+ function deleteRouteInfoProcessResponse()
+ {
+ if (xhrRouteDetails.readyState == 4 &&  xhrRouteDetails.status == 200) {
+   
+     var response = this.responseText;
+     //alert(delrow);
+     delrow.remove(); //tr0
+     alert("Route  Details deleted successfully");
+        location.reload();
+
+   }
+ }
+
+
+
+
+function deleteData(row){
+	delId = row.closest("td").id;
+	//alert(delId); tdeditdelete0
+	var counter=delId.replace("tdeditdelete","");
+	//alert(counter);
+              delrow =document.getElementById("tr"+counter);  //tr0
+              
+                delRoute = delrow.getElementsByTagName("td")[0].innerHTML;
+              //  alert(delRoute);
+                deleteRouteDetails();
+                
+}
+
+
+
+var editId;
+var editRow;
+
+function editData(row){
+
+	editId = row.closest("td").id;
+	//alert(editId);
+	var counterEdit=editId.replace("tdeditdelete","");
+	editRow =document.getElementById("tr"+counterEdit);
+	
+	var editDestination = editRow.getElementsByTagName("td")[0].innerHTML;
+	
+	var dropPointsTd = document.getElementById("tddropPoints" + counterEdit);
+	var editDropPoints = dropPointsTd.getElementsByTagName("li");
+	
+	var dropPointsArr = new Array();
+	for(var i=0; i<editDropPoints.length; i++) {
+		dropPointsArr.push(editDropPoints[i])
+	}
+	
+	var timeSlotsId = document.getElementById("tdtimeSlots" + counterEdit);
+	var editTimeSlots = timeSlotsId.getElementsByTagName("li");
+
+	var timeSlotsArr = new Array();
+	for(var i=0; i<editTimeSlots.length; i++) {
+		timeSlotsArr.push(editTimeSlots[i])
+	}
+	
+	window.location.href = "/routeNext.html?destination="+editDestination;
+	
+}
+ 
+ 
+ 
+  
+
+/* ---------------------------------------------------------------------------------------------------------------------------------------*/
+
   	/*----------------------Dynamic table ends-------------------------------------------------------------------------------*/
 
 

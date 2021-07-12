@@ -46,6 +46,12 @@ public class DestinationController {
 
 		return ResponseEntity.status(HttpStatus.OK).body(destination);
 	}
+	
+	@GetMapping(path = "/editRoute/{destination}")
+	public ResponseEntity<Destination> getDestinationDetails(@PathVariable ("destination") String destination){
+		Optional<Destination> details = this.repo.findByDestination(destination);
+		return ResponseEntity.status(HttpStatus.OK).body(details.get());
+	}
 
 	@GetMapping(path = "/managigRoute/all/destName")
 	public ResponseEntity<List<String>> getdestName() {
@@ -56,26 +62,31 @@ public class DestinationController {
 
 	@PostMapping(path = "/managingRoute/post")
 	public ResponseEntity<Destination> addPlan(@RequestBody Destination entity) {
-		Destination post = blLayer.addDestination(entity);
-		Destination reqCab = entity;
-    	reqCab.setIsDeleted('0');
+		
+		Optional<Destination> dest=	repo.findByDestination(entity.getDestination());
+		if(dest.isPresent() ) {
+			if(dest.get().getIsDeleted()==1){
+				dest.get().setIsDeleted(0);
+				repo.save(dest.get());
+				return ResponseEntity.status(HttpStatus.CREATED).body(entity);
+			}
+		
+			else {
+				return ResponseEntity.status( HttpStatus.ALREADY_REPORTED).body(entity);
+			}
+				
+		}
+			
+	Destination post = blLayer.addDestination(entity);
     	
-    	Destination createdBy=entity;
-    	createdBy.setCreatedBy("Admin");
-    	
-    	Destination createdDate=entity;
-    	createdDate.setCreatedDate(LocalDate.now());
-
 		return ResponseEntity.status(HttpStatus.CREATED).body(post);
 	}
 
-//	@GetMapping(path = "/managingRoute/name/{destination}")
-//	public List<Destination> getByDestName(@PathVariable("destination") String destination) {
-//		return this.dlLayer.findByDestination(destination);
-//	}
 	
 	
-	@PutMapping(path="/deleteRouteInfo/{destination}")
+	
+	
+	@PutMapping(path="/put/{destination}")
     public ResponseEntity<Destination> deleteRoute(@PathVariable("destination") String destination)
     {      
            
@@ -85,58 +96,32 @@ public class DestinationController {
     }
 	
 	
+
 	
 	
-	
-	
-	
-	
-
-//	@PutMapping(path = "/managingRoute/delete/{destination}")
-//	public ResponseEntity<Destination> deleteBy(@PathVariable("destination") Destination destination,
-//			@RequestBody Destination deleteInfo) {
-//
-//		
-//		Destination isDeleteFlag=deleteInfo;
-//		isDeleteFlag.setIsDeleted('1');
-//		
-//		Destination modifiedBy=deleteInfo;
-//    	modifiedBy.setModifiedBy("Admin");
-//    	
-//    	Destination modifiedDate=deleteInfo;
-//    	modifiedDate.setModifiedDate(LocalDate.now());
-//		
-//		
-//		
-//		Optional<Destination> entity = blLayer.deleteByDestination(destination);
-//		//Destination deleteHistory = null;
-//		if (entity.isPresent()) {
-//			//deleteHistory = entity.get();
-//			//this.blLayer.deleteByDestination(deleteInfo);
-//			this.repo.save(deleteInfo);
-//		} else {
-//			throw new NoSuchElementException("No such element to delete");
-//		}
-//
-//		return ResponseEntity.status(HttpStatus.OK).body(deleteInfo);
-//	}
-
-	@GetMapping(path = "/managingRoute/id/{destId}")
-	public ResponseEntity<Destination> getById(@PathVariable("destId") int destId) {
-
-		Optional<Destination> optDestObj = this.blLayer.findById(destId);
-
-		Destination destObj = null;
-	    if (optDestObj.isPresent()) {
-			destObj = optDestObj.get();
-			return ResponseEntity.status(HttpStatus.OK).body(destObj);
-		}
-
-		else {
-			throw new RuntimeException("Destination not found");
-		}
-
+	@PutMapping(path="/updateRouteInfo/{destination}")
+	public ResponseEntity<Destination> editRouteDetails(@PathVariable("destination") String destination,
+			@RequestBody Destination updateRouteInfo)
+	{
+		
+		
+		Destination dest=repo.findByDestination(destination).get();
+		
+		dest.setModifiedBy("Admin");
+		dest.setModifiedDate(LocalDate.now());
+		
+		
+		dest.setTimeSlots(updateRouteInfo.getTimeSlots());
+		dest.setDropPoints(updateRouteInfo.getDropPoints());
+    	Destination saveRouteInfo = repo.save(dest);
+    	
+    		
+		return ResponseEntity.status(HttpStatus.OK).body(saveRouteInfo);
 	}
+    
+   
+    
+  
 
 	@PutMapping(path = "/route/addDropPoint")
 	public ResponseEntity<Destination> addDropPoint(@RequestBody Destination destInfo) {
@@ -174,129 +159,10 @@ public class DestinationController {
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(post);
 	}
+	
+	
+
+	
 
 }
 
-//	@GetMapping(path = "/managingRoute/{destId}")
-//	public ResponseEntity<Destination> addDrop(@PathVariable("destId") int destId,
-//			@PathVariable("dropPoint") DropPoint dropPoint) {
-//
-//		Optional<Destination> optDestObj = this.blLayer.findById(destId);
-//		//Optional<Destination> optDestObj1 = this.blLayer.findById(destId);
-//		
-//
-//		Destination destObj = null;
-//		if (optDestObj.isPresent()) {
-//			destObj = optDestObj.get();
-//			return ResponseEntity.status(HttpStatus.OK).body(destObj);
-//		}
-//		
-//		else {
-//			throw new RuntimeException("Destination not found");
-//		}
-//
-//	}
-//	
-//	@PostMapping(path = "/managingRoute/addPoint/{destId}")
-//	public ResponseEntity<Destination> addDropPoint(@PathVariable("destId") int destId,
-//			@PathVariable("dropPoint") DropPoint dropPoint) {
-//
-//		Optional<Destination> optDestObj = this.blLayer.findById(destId);
-//		//Optional<Destination> optDestObj1 = this.blLayer.findById(destId);
-//		Destination destObj = null;
-//		 Destination saveDropPoint=null;
-//		destObj = optDestObj.get();
-//     Optional<Destination> dpt=    dropPoint.getDropPoint();
-//     if(dpt.isPresent()) {
-//    	 
-//    	 throw new NoSuchElementException("DropPoint already exists");
-//		}
-//		
-//		else {
-//			saveDropPoint=this.point.addDropPointInfo(destObj);
-//			
-//		}
-//		return ResponseEntity.status(HttpStatus.CREATED).body(saveDropPoint); 
-//     }
-//        
-//		
-
-//	@PutMapping(path="/route/addDropPoint")
-//	public ResponseEntity<Destination> addDropPoint(@RequestBody Destination destInfo){
-//		
-//
-//		Destination post = blLayer.save(destInfo);
-//	
-//		return ResponseEntity.status(HttpStatus.CREATED).body(post);
-//	}
-//	
-//	@PostMapping(path="/route/addTimeSlot")
-//	public ResponseEntity<Destination> addTimeSlot(@RequestBody Destination destInfo){
-//		
-//   
-//		
-//		Destination post = blLayer.save(destInfo);
-//		
-//		return ResponseEntity.status(HttpStatus.CREATED).body(post);
-//	}
-//	
-//	
-//}
-//	
-
-//	// method for adding a drop point
-//	@PutMapping(path = "/managingRoute/add/{destId}")
-//	public ResponseEntity<List<DropPoint>> addDropPointforDestination(@PathVariable("destId") int destId,
-//			@RequestBody List<DropPoint> entity) {
-//		
-//		Optional<Destination> optDestObj = this.blLayer.findById(destId);
-//		
-//		
-//		
-//		boolean result = false;
-//		
-//		Destination destObj = null;
-//		List<DropPoint> dropPointObj = null;
-//		
-//		
-//		if (optDestObj.isPresent()) {
-//			destObj = optDestObj.get();
-//			}
-//		else {
-//			System.out.println(" Destination not present");
-//			
-//			
-//		}
-//		
-//
-//		
-////      if(((DropPoint) entity).getDropPointName())			}
-////		String	newDropPoint=entity.getDropPointName();
-////		
-////		if(newDropPoint.) {
-////			
-//		
-//			
-//			
-//			
-//			
-//			
-//			//call BL to check if drop point already exists -- beg
-//			  // boolean result = checkIfDropPointExists(destinationID,entity);
-//			//call BL to check if drop point already exists -- end
-//			
-//			
-//			
-//			if(!result || destObj.addDropPointToList(entity)) {
-//				dropPointObj = entity;
-//				return	ResponseEntity.status(HttpStatus.OK).body(dropPointObj);
-//
-//			}
-//			    else {
-//			    	throw new RuntimeException("DropPoint didn't added");
-//			    }
-//		}
-//		
-//		
-//	}
-////	// rohit - end

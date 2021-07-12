@@ -75,9 +75,9 @@ function cancelOf(id){
 }
 
 
+var timeid=1;
 function display1(){
 
-var timeid=1;
 	var o=document.getElementById("dis1");
 	  var addTimeSlot= document.getElementById("timeSlot").value;
 	  
@@ -207,7 +207,7 @@ document.getElementById("saveBtn").addEventListener('click' , validateRouteDetai
   
   
   
-    
+  var savingNewRecord = true; 
   
   function saveRouteDetails(){
   
@@ -249,22 +249,30 @@ document.getElementById("saveBtn").addEventListener('click' , validateRouteDetai
 	{    
 	
 	var splittedTimeSlot = slotList[i].value.split(":");
+	var mins;
+	
+	if(parseInt(splittedTimeSlot[1]) < 10) {
+		mins = "0" + parseInt(splittedTimeSlot[1]);
+	} else {
+		mins = parseInt(splittedTimeSlot[1]);
+	}
+	
 	  if (splittedTimeSlot[1].includes("PM")) {
 		  //alert(Number(splittedTimeSlot[1])); 
 		  if (parseInt(splittedTimeSlot[0],10 ) + 12 == 24) {
-			  bookingTimeSlot = "00" + ":" + parseInt(splittedTimeSlot[1]);
+			  bookingTimeSlot = "00" + ":" + mins;
 		  }
 		  else {
 			  splittedTimeSlotHour = parseInt(splittedTimeSlot[0],10) + 12;
-			  bookingTimeSlot = splittedTimeSlotHour + ":" + parseInt(splittedTimeSlot[1]) ;
+			  bookingTimeSlot = splittedTimeSlotHour + ":" + mins;
 		  }
 	  }
 	  else {
 		  if (parseInt(splittedTimeSlot[0],10) < 10) {
-			  bookingTimeSlot = "0" + parseInt(splittedTimeSlot[0],10) + ":" + parseInt(splittedTimeSlot[1]) ;
+			  bookingTimeSlot = "0" + parseInt(splittedTimeSlot[0],10) + ":" + mins;
 		  }
 		  else {
-			  bookingTimeSlot = parseInt(splittedTimeSlot[0],10) + ":" + parseInt(splittedTimeSlot[1]) ;
+			  bookingTimeSlot = parseInt(splittedTimeSlot[0],10) + ":" + mins;
 		  }
 	  }
 		
@@ -278,19 +286,24 @@ document.getElementById("saveBtn").addEventListener('click' , validateRouteDetai
   
 	var data = {"destination":destination,"dropPoints":dropPoint,"timeSlots":timeSlot};
 	
-	
+	if(savingNewRecord) {
    
-    xhrSaveRouteDetails.open("POST","http://localhost:6062/api/v1/managingRoute/post",true);
-    xhrSaveRouteDetails.setRequestHeader("Content-Type","application/json");
- 	xhrSaveRouteDetails.send(JSON.stringify(data));
-  
-    xhrSaveRouteDetails.onreadystatechange=saveRouteInfoProcessResponse;  
-    }
- 
- 	
+	    xhrSaveRouteDetails.open("POST","http://localhost:6062/api/v1/managingRoute/post",true);
+	    xhrSaveRouteDetails.setRequestHeader("Content-Type","application/json");
+	 	xhrSaveRouteDetails.send(JSON.stringify(data));
+	  
+	    xhrSaveRouteDetails.onreadystatechange=saveRouteInfoProcessResponse; 
+	     
+    } else {
+		 xhrSaveRouteDetails.open("PUT","http://localhost:6062/api/v1/updateRouteInfo/"+destination,true);
+	    xhrSaveRouteDetails.setRequestHeader("Content-Type","application/json");
+	 	xhrSaveRouteDetails.send(JSON.stringify(data));
+	  
+	    xhrSaveRouteDetails.onreadystatechange=saveRouteInfoProcessResponse; 
+	    
+	}
+}
    
- 
- 
  function saveRouteInfoProcessResponse()
  {
  
@@ -302,10 +315,14 @@ document.getElementById("saveBtn").addEventListener('click' , validateRouteDetai
      alert("Route Details saved successfully");
      funclear();
    }
+   if(xhrSaveRouteDetails.readyState == 4 &&  xhrSaveRouteDetails.status == 200){
+	window.location.href="/routemanagement.html";
+}
+   
    
    //NOT_ACCEPTABLE
    
-   if(xhrSaveRouteDetails.readyState == 4 &&  xhrSaveRouteDetails.status == 406){
+   if(xhrSaveRouteDetails.readyState == 4 &&  xhrSaveRouteDetails.status == 208){
  
    alert("Destination already exist");
    } 
@@ -336,7 +353,10 @@ function funclear()
 
     
     
-/* --------------------------------------------------------------------------------------------------------*/
+/* --------------------------------------------------------------------------------------------------------
+
+  
+  
 
   
   var xhrRouteDetails = new XMLHttpRequest();
@@ -344,11 +364,11 @@ function funclear()
 
 var delId;
  var delrow;
-  function deleteCabDetails(){
+  function deleteRouteDetails(){
   
  
   
-    xhrRouteDetails.open("PUT","http://localhost:6062/api/v1/managingRoute/delete/{destId}"+delCab,true);
+    xhrRouteDetails.open("PUT","http://localhost:6062/api/v1/put/{destination}"+delRoute,true);
  	
  	
  	xhrRouteDetails.setRequestHeader("Content-Type","application/json");
@@ -360,7 +380,7 @@ var delId;
  
  function deleteRouteInfoProcessResponse()
  {
- if (xhrRouteCabDetails.readyState == 4 &&  xhrDeleteCabDetails.status == 200) {
+ if (xhrRouteDetails.readyState == 4 &&  xhrRouteDetails.status == 200) {
    
      var response = this.responseText;
      //alert(delrow);
@@ -369,6 +389,9 @@ var delId;
    }
    location.reload();
  }
+
+
+
 
 function deleteData(row){
 	delId = row.closest("td").id;
@@ -416,15 +439,183 @@ function editData(row){
 
 // date formate change
 
-function formatDate(date, option){
-	var arr = date.split("-");
+//function formatDate(date, option){
+//	var arr = date.split("-");
+//	
+//	if(option ==1)
+//     var formatedDate = arr[2] + "-" + arr[1] + "-" + arr[0];
+//     else if(option==2) //dd-mm-yyyy
+//     var formatedDate = arr[1] + "-" + arr[0] + "-" + arr[2];
+//  return formatedDate;
+////	
+
+//}
+var destination;
+
+window.onload = function() {
+	var editDatas = window.location.search;
+	if(editDatas == null || editDatas == undefined || editDatas== "") {
+		return false;
+	}
+	else{
+	savingNewRecord=false;
+	 destination = editDatas.split("=")[1];
+	var des =document.getElementById("destination");
+	des.value = destination;
+	des.disabled =true;
+	editRouteDetails();
+	}
+	}
 	
-	if(option ==1)
-     var formatedDate = arr[2] + "-" + arr[1] + "-" + arr[0];
-     else if(option==2) //dd-mm-yyyy
-     var formatedDate = arr[1] + "-" + arr[0] + "-" + arr[2];
-  return formatedDate;
+	var xhrDestinationDetails = new XMLHttpRequest();
+ 
+  function editRouteDetails(){
+  
+ 
+  
+    xhrDestinationDetails.open("GET","http://localhost:6062/api/v1/editRoute/"+destination,true);
+ 	
+ 	
+ 	xhrDestinationDetails.setRequestHeader("Content-Type","application/json");
+ 	xhrDestinationDetails.send(null);
+  
+    xhrDestinationDetails.onreadystatechange=dsetinationProcessResponse;  
+ 
+ }
+ function dsetinationProcessResponse(){
+	if(xhrDestinationDetails.status==200 && xhrDestinationDetails.readyState==4){
+		var route=JSON.parse(this.responseText);
+		for(var i=0;i<route.dropPoints.length;i++){
+			
+			var o=document.getElementById("dis");
+			div=document.createElement("tr");
+	div.setAttribute("id", "row"+i); 
+	
+	b=document.createElement("td");
+	
+	inpt=document.createElement("INPUT");
+	inpt.style="margin-right:5%";
+	 inpt.setAttribute("type", "text");
+	 
+	 inpt.setAttribute("id", "t1"+i);
+	
+	 inpt.value=route.dropPoints[i].dropPoint;
+	 inpt.disabled=true;
+	 b.appendChild(inpt);
+//	b.setAttribute("id", "t1"+(i)); 
+//    b.innerHTML="<input type='text' style='margin-right:15%;' id='box1' value="+addDropPoint+" disabled=true>";
+   // document.getElementById("dropPoint").value="";
+    
+   
+
+
+
+    
+    
+	 c=document.createElement("td");
+	 c.innerHTML="<img src='images/cancel.svg' alt='cancel-icon' style='margin-right:7%' style='margin-bottom:4%' onclick='cancelOf(this)'/>"
+	 c.style="padding-right:35%";
+	  c.setAttribute("id", "cancel"+(i));
+	  
+	
+	 div.appendChild(b);
+	 div.appendChild(c);
+	 o.appendChild(div);
+	 
+	
 	
 }
+   for(var j=0;j<route.timeSlots.length;j++){
+		var o=document.getElementById("dis1");
+	  var addTimeSlot= document.getElementById("timeSlot").value;
+	  
+	
+	div=document.createElement("tr");
+	div.setAttribute("id", "timerow"+(j)); 
+	
+	b=document.createElement("td");
+	
+	inpt=document.createElement("INPUT");
+	inpt.style="margin-right:5%";
+	 inpt.setAttribute("type", "text");
+	 
+	 inpt.setAttribute("id", "t1"+(j));
+	
 
+	
+	//b.setAttribute("id", "t1"+(i)); 
+//    b.innerHTML="<input type='text' style='margin-right:5%; ' id='dyn1'  disabled=true>";
+    //document.getElementById("timeSlot").value="";
+    
+    var time;
+     var slotSplitted = route.timeSlots[j].timeSlot.split(":");
+        				  slotHour = slotSplitted[0];
+        				  if (slotHour < 12){
+								if(slotHour == 00){
+									time = "12" + ":" + slotSplitted[1] + " AM";
+									
+								}
+								else{
+									time =slotHour + ":" + slotSplitted[1] + " AM";
+									
+								}
+					}else{
+						slotHour = slotHour -12;
+						if(slotHour < 10){
+							time= "0" + slotHour +":" +slotSplitted[1] + " PM";
+							
+						}else{
+							time=slotHour + ":" +slotSplitted[1] + " PM";
+ 						}
+ 						
+ 				}	
+   
+  // document.getElementById("timeSlot").value="";
+   	 inpt.value=time;
+	 inpt.disabled=true;
+	 b.appendChild(inpt);
+   
+   
+dynList = o.querySelectorAll('input[type="text"]')
+//ddloption =  document.getElementById("t1").value;
+	
+	for(var i = 0; i < dynList.length; i++)
+	{  
+		if(time == dynList[i].value){
+			alert(false);
+			return false;
+		} 
+	}  
+    
+    
+	 c=document.createElement("td");
+	 c.innerHTML="<img src='images/cancel.svg' alt='cancel-icon' style='margin-right:3%' style='margin-bottom:4%' onclick='cancelOfTime(this)'/>"
+	 c.style="padding-right:35%";
+	  c.setAttribute("id", "cancel"+(j));
+	  
+	
+	 div.appendChild(b);
+	 div.appendChild(c);
+	 o.appendChild(div);
+	 
+	
+	
+}
+	}
+			
+			
+			
+			
+			
+			
+		}
+		
+		
+		
+	
+	
+	
+	
 
+	
+	

@@ -21,15 +21,16 @@ import lombok.NoArgsConstructor;
 @Document(collection = "routeManagement")
 @Component
 public class Destination {
-	@Id
-
-	private int id;
-	private String destination;
+	
+@Id
+	long destId;
+	public  String destination;
 
 	private List<DropPoint> dropPoints;
 	
 	
 	private List<TimeSlot> timeSlots;
+	
 	int isDeleted;
 	String createdBy;
 	String modifiedBy;

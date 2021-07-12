@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 public class DropPoint {
 
 
-	private int id;
+
 	private String dropPoint;
 	
 	

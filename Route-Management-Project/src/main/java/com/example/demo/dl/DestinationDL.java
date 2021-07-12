@@ -8,6 +8,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -65,6 +67,21 @@ public class DestinationDL {
 
 	public Destination addDestination(Destination entity) {
 		// TODO Auto-generated method stub
+		//Destination reqRoute = entity;
+		
+		
+		
+		entity.setDestId(repo.count()+1);
+		
+		
+		entity.setIsDeleted(0);
+    	
+    	//Destination createdBy=entity;
+		entity.setCreatedBy("Admin");
+    	
+    	//Destination createdDate=entity;
+		entity.setCreatedDate(LocalDate.now());
+    	
 		Destination dest=this.repo.save(entity);
 		
 		
@@ -88,15 +105,17 @@ public class DestinationDL {
 
 public Destination deleteRoute(String destination) {
         
-        Optional<Destination> cab = this.repo.findByDestination(destination);
-        Destination deletedCab = cab.get();
-        deletedCab.setIsDeleted('1');
-        deletedCab.setModifiedBy("Admin");
-
+    Optional< Destination> route = this.repo.findByDestination(destination);
+       Destination deletedRoute = route.get();
+  //   int deleteToken = route.getIsDeleted();
+    // Destination del = null;
+     
+     
+       deletedRoute.setIsDeleted(1);
+       deletedRoute.setModifiedBy("Admin");
  
-
-        deletedCab.setModifiedDate(LocalDate.now());
-        return this.repo.save(deletedCab);
+       deletedRoute.setModifiedDate(LocalDate.now());
+        return this.repo.save(deletedRoute);
     }
 }
 
