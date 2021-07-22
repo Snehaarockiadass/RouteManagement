@@ -30,7 +30,7 @@ public class DestinationDL {
 
 
 
-	public List<Destination> getRoute() {
+	public List<Destination> getAllRoute() {
 		// TODO Auto-generated method stub
 		 
 			Optional<List<Destination>>	optObj =  this.repo.findByIsDeleted(0);
@@ -55,7 +55,7 @@ public class DestinationDL {
 
 		List<String> destNameList = new ArrayList<>();
 
-		MongoCollection mongoCollection = mongoTemplate.getCollection("routeManagement");
+		MongoCollection mongoCollection = mongoTemplate.getCollection("destination");
 
 		DistinctIterable distinctIterable = mongoCollection.distinct("destName", String.class);
 

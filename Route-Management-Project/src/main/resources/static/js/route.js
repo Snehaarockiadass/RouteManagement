@@ -142,7 +142,7 @@ var delId;
   
  
   
-    xhrRouteDetails.open("PUT","http://localhost:6062/api/v1/put/"+delRoute,true);
+    xhrRouteDetails.open("PUT","http://localhost:6062/api/v1/put/deleteRouteDetails/"+delRoute,true);
  	
  	
  	xhrRouteDetails.setRequestHeader("Content-Type","application/json");

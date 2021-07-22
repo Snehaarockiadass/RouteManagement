@@ -51,9 +51,9 @@ public class DestinationBL {
 		return this.dlLayer.addDestination(entity);
 	}
 
-	public List<Destination> getRoute() {
+	public List<Destination> getAllRoute() {
 		// TODO Auto-generated method stub
-		return this.dlLayer.getRoute();
+		return this.dlLayer.getAllRoute();
 	}
 
 }

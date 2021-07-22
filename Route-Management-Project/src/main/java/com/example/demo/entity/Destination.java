@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "routeManagement")
+@Document(collection = "destination")
 @Component
 public class Destination {
 	

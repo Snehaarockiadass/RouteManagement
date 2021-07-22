@@ -40,28 +40,16 @@ public class DestinationController {
 	
 	
 	@GetMapping(path = "/managingRoute")
-	public ResponseEntity<List<Destination>> getRoute() {
+	public ResponseEntity<List<Destination>> getAllRoute() {
 
-		List<Destination> destination = this.blLayer.getRoute();
+		List<Destination> destination = this.blLayer.getAllRoute();
 
 		return ResponseEntity.status(HttpStatus.OK).body(destination);
 	}
-	
-	@GetMapping(path = "/editRoute/{destination}")
-	public ResponseEntity<Destination> getDestinationDetails(@PathVariable ("destination") String destination){
-		Optional<Destination> details = this.repo.findByDestination(destination);
-		return ResponseEntity.status(HttpStatus.OK).body(details.get());
-	}
 
-	@GetMapping(path = "/managigRoute/all/destName")
-	public ResponseEntity<List<String>> getdestName() {
-		List<String> destName = this.dlLayer.findAllDestName();
 
-		return ResponseEntity.status(HttpStatus.OK).body(destName);
-	}
-
-	@PostMapping(path = "/managingRoute/post")
-	public ResponseEntity<Destination> addPlan(@RequestBody Destination entity) {
+	@PostMapping(path = "/managingRoute/newRoute")
+	public ResponseEntity<Destination> addNewRoute(@RequestBody Destination entity) {
 		
 		Optional<Destination> dest=	repo.findByDestination(entity.getDestination());
 		if(dest.isPresent() ) {
@@ -86,7 +74,7 @@ public class DestinationController {
 	
 	
 	
-	@PutMapping(path="/put/{destination}")
+	@PutMapping(path="/put/deleteRouteDetails/{destination}")
     public ResponseEntity<Destination> deleteRoute(@PathVariable("destination") String destination)
     {      
            
@@ -120,47 +108,58 @@ public class DestinationController {
 	}
     
    
-    
+	@GetMapping(path = "/editRoute/{destination}")
+	public ResponseEntity<Destination> getDestinationDetails(@PathVariable ("destination") String destination){
+		Optional<Destination> details = this.repo.findByDestination(destination);
+		return ResponseEntity.status(HttpStatus.OK).body(details.get());
+	}
+
+	@GetMapping(path = "/managigRoute/all/destName")
+	public ResponseEntity<List<String>> getdestName() {
+		List<String> destName = this.dlLayer.findAllDestName();
+
+		return ResponseEntity.status(HttpStatus.OK).body(destName);
+	}
   
 
-	@PutMapping(path = "/route/addDropPoint")
-	public ResponseEntity<Destination> addDropPoint(@RequestBody Destination destInfo) {
-
-		Destination isDeleted = destInfo;
-    	isDeleted.setIsDeleted('0');
-    	
-    	Destination modifiedBy=destInfo;
-    	modifiedBy.setModifiedBy("Admin");
-    	
-    	Destination modifiedDate=destInfo;
-    	modifiedDate.setModifiedDate(LocalDate.now());
-		
-		
-		Destination post = dlLayer.addDropPoint(destInfo);
-
-		return ResponseEntity.status(HttpStatus.CREATED).body(post);
-	}
-
-	@PutMapping(path = "/route/addTimeSlot")
-	public ResponseEntity<Destination> addTimeSlot(@RequestBody Destination destInfo) {
-
-		
-
-		Destination isDeleted = destInfo;
-    	isDeleted.setIsDeleted('0');
-    	
-    	Destination modifiedBy=destInfo;
-    	modifiedBy.setModifiedBy("Admin");
-    	
-    	Destination modifiedDate=destInfo;
-    	modifiedDate.setModifiedDate(LocalDate.now());
-		
-		Destination post = dlLayer.addTimeSlot(destInfo);
-
-		return ResponseEntity.status(HttpStatus.CREATED).body(post);
-	}
-	
-	
+//	@PutMapping(path = "/route/addDropPoint")
+//	public ResponseEntity<Destination> addDropPoint(@RequestBody Destination destInfo) {
+//
+//		Destination isDeleted = destInfo;
+//    	isDeleted.setIsDeleted('0');
+//    	
+//    	Destination modifiedBy=destInfo;
+//    	modifiedBy.setModifiedBy("Admin");
+//    	
+//    	Destination modifiedDate=destInfo;
+//    	modifiedDate.setModifiedDate(LocalDate.now());
+//		
+//		
+//		Destination post = dlLayer.addDropPoint(destInfo);
+//
+//		return ResponseEntity.status(HttpStatus.CREATED).body(post);
+//	}
+//
+//	@PutMapping(path = "/route/addTimeSlot")
+//	public ResponseEntity<Destination> addTimeSlot(@RequestBody Destination destInfo) {
+//
+//		
+//
+//		Destination isDeleted = destInfo;
+//    	isDeleted.setIsDeleted('0');
+//    	
+//    	Destination modifiedBy=destInfo;
+//    	modifiedBy.setModifiedBy("Admin");
+//    	
+//    	Destination modifiedDate=destInfo;
+//    	modifiedDate.setModifiedDate(LocalDate.now());
+//		
+//		Destination post = dlLayer.addTimeSlot(destInfo);
+//
+//		return ResponseEntity.status(HttpStatus.CREATED).body(post);
+//	}
+//	
+//	
 
 	
 

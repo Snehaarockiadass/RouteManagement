@@ -288,7 +288,7 @@ document.getElementById("saveBtn").addEventListener('click' , validateRouteDetai
 	
 	if(savingNewRecord) {
    
-	    xhrSaveRouteDetails.open("POST","http://localhost:6062/api/v1/managingRoute/post",true);
+	    xhrSaveRouteDetails.open("POST","http://localhost:6062/api/v1/managingRoute/newRoute",true);
 	    xhrSaveRouteDetails.setRequestHeader("Content-Type","application/json");
 	 	xhrSaveRouteDetails.send(JSON.stringify(data));
 	  
