@@ -32,7 +32,10 @@ public class DestinationDL {
 
 	public List<Destination> getRoute() {
 		// TODO Auto-generated method stub
-		return this.repo.findAll();
+		 
+			Optional<List<Destination>>	optObj =  this.repo.findByIsDeleted(0);
+			
+			return optObj.get();
 	}
 
 	public List<Destination> findAll() {

@@ -14,6 +14,9 @@ public interface DestinationRepo extends MongoRepository<Destination, Integer> {
 
 Optional<Destination> findByDestination(String destination);
 
+
+Optional<List<Destination>> findByIsDeleted(int isDeleted);
+
 	
 }
 
@@ -21,3 +24,5 @@ Optional<Destination> findByDestination(String destination);
 //ctrl+shift+f----- allignment
 //ctrl+shift+o-----for getting all methods values
 //ctrl+shift+c-----commending and uncommending
+
+//ctrl+shift+L ---- gives a list of all shortcuts
