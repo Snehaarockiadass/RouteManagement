@@ -21,6 +21,8 @@ public class DestinationBL {
 	public List<Destination> findAll() {
 		return dlLayer.findAll();
 	}
+	
+	
 
 //	public List<DropPoint> addDestinationByDropPoint(int destId, List<DropPoint> dropPoint) {
 //		return dlLayer.addDestinationByDropPoint(destId, dropPoint);
@@ -51,9 +53,16 @@ public class DestinationBL {
 		return this.dlLayer.addDestination(entity);
 	}
 
-	public List<Destination> getAllRoute() {
+//	public List<Destination> getAllRoute() {
+//		// TODO Auto-generated method stub
+//		return this.dlLayer.getAllRoute();
+//	}
+
+
+
+	public List<Destination> finfByIsDeleted(int c) {
 		// TODO Auto-generated method stub
-		return this.dlLayer.getAllRoute();
+		return this.dlLayer.findByIsDeleted(c);
 	}
 
 }

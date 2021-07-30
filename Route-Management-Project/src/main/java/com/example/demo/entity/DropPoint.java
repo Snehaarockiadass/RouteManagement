@@ -17,12 +17,7 @@ import lombok.NoArgsConstructor;
 
 public class DropPoint {
 
-
-
 	private String dropPoint;
-	
-	
-	
 	int isDeleted;
 	String createdBy;
 	String modifiedBy;

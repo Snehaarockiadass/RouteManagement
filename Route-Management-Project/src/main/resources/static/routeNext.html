@@ -150,7 +150,7 @@
 					<input type="text" id="destination" name="destination" class="box"><br>
 					<div class="rower" id='TextBoxesGroup'>
 						<div class="column field_wrapper" id="TextBoxDiv1">
-
+							
 							<p><strong>Drop Point </strong></p>
 							<a><input type="text" id="dropPoint" name="dropPoint" class="src"><img src="images/add.svg"
 									alt="add-icon" data-toggle="modal" data-target="#dest-pop1"  onclick="display()">
@@ -166,7 +166,7 @@
 						<div class="column">
 							<p><strong>Time Slot</strong></p>
 
-							<a><input type="time"  id="timeSlot"  min="09:00" max="18:00" class="src1" required><img src="images/add.svg" alt="add-icon" data-toggle="modal" data-target="#dest-pop1" onclick="display1()" /> 
+							<a><input type="time"  id="timeSlot"  min="09:00" max="18:00" class="src1" style="width:190px" required><img src="images/add.svg" alt="add-icon" data-toggle="modal" data-target="#dest-pop1" onclick="display1()" /> 
 								<div id="dis1"> </div>
 							
 							</a>
@@ -187,40 +187,7 @@
 	</div>
 	</div>
 	</div>
-	<!--Pagination starts here-->
-	<div class="page py-md-1 me-5">
-		<nav aria-label="Page navigation">
-			<ul class="pagination">
-				<li class="page-item">
-					<a class="page-link pagination-border" href="#" aria-label="Previous">
-						<img src="Images/pagination-prev-arrow.svg" alt="page-arrow" />
-					</a>
-				</li>
-				<li class="page-item"><a class="page-link pagination-border page-active" href="#">1</a></li>
-				<li class="page-item"><a class="page-link pagination-border" href="#">2</a></li>
-				<li class="page-item"><a class="page-link pagination-border" href="#">3</a></li>
-				<li class="page-item"><a class="page-link pagination-border" href="#">...</a></li>
-				<li class="page-item"><a class="page-link pagination-border" href="#">9</a></li>
-				<li class="page-item"><a class="page-link pagination-border" href="#">10</a></li>
-				<li class="page-item"><a class="page-link pagination-border" href="#">11</a></li>
-				<li class="page-item">
-					<a class="page-link pagination-border" href="#" aria-label="Next">
-						<img src="Images/pagination-next-arrow.svg" alt="page-arrow" />
-					</a>
-				</li>
-			</ul>
-		</nav>
-	</div>
-	<!--pagination ends here-->
-
-	<!--total content display starts here-->
-	<div class="header-left py-md-1 ms-5">
-		<span class="font-records">Showing records</span>
-		<span class="regular"> 9 out of 100</span>
-	</div>
-	<!--total content display ends here-->
-	</div>
-
+	
 	<!--route management popup starts here-->
 	<div class="modal fade" id="route-pop" tabindex="-1" role="dialog" aria-labelledby="route-pop" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered " role="document">

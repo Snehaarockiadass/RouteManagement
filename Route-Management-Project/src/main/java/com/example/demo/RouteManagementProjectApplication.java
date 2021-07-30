@@ -29,6 +29,7 @@ public class RouteManagementProjectApplication {
 
 	}
 
+	
 	@Bean
 	public CommandLineRunner runner() {
 		return new CommandLineRunner() {
@@ -53,7 +54,7 @@ public class RouteManagementProjectApplication {
 				
 				
 				
-
+				
 				List<TimeSlot> timeSlot = new ArrayList<>();
 				TimeSlot slot1 = new TimeSlot( LocalTime.of(3, 10),0,"admin","adminnnn",date,date);
 				TimeSlot slot2 = new TimeSlot( LocalTime.of(7, 45),0,"admin","adminnnn",date,date);
@@ -64,7 +65,7 @@ public class RouteManagementProjectApplication {
 				timeSlot.add(slot2);
 				timeSlot.add(slot3);
 				timeSlot.add(slot4);
-				timeSlot.add(slot5);
+				timeSlot.add(slot5);		
 				
 				//LocalDate date =LocalDate.parse("December 15, 2019", DateTimeFormatter.ofPattern("MMMM dd, yyyy"));
 				repo.save(new Destination(1, "Coyambedu", dropPoint, timeSlot,
@@ -73,5 +74,5 @@ public class RouteManagementProjectApplication {
 			}
 		};
 
-	}
+	} 
 }

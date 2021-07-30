@@ -15,7 +15,7 @@ public interface DestinationRepo extends MongoRepository<Destination, Integer> {
 Optional<Destination> findByDestination(String destination);
 
 
-Optional<List<Destination>> findByIsDeleted(int isDeleted);
+List<Destination> findByIsDeleted(int isDeleted);
 
 	
 }

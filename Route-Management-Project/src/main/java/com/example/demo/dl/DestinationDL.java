@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.entity.Destination;
 import com.example.demo.entity.DropPoint;
+import com.example.demo.entity.TimeSlot;
 import com.example.demo.repo.DestinationRepo;
 import com.mongodb.client.DistinctIterable;
 import com.mongodb.client.MongoCollection;
@@ -30,13 +31,13 @@ public class DestinationDL {
 
 
 
-	public List<Destination> getAllRoute() {
-		// TODO Auto-generated method stub
-		 
-			Optional<List<Destination>>	optObj =  this.repo.findByIsDeleted(0);
-			
-			return optObj.get();
-	}
+//	public List<Destination> getAllRoute() {
+//		// TODO Auto-generated method stub
+//		 
+//			List<Destination>	optObj =  this.repo.findByIsDeleted('0');
+//			
+//			return optObj;
+//	}
 
 	public List<Destination> findAll() {
 		return repo.findAll();
@@ -120,6 +121,11 @@ public Destination deleteRoute(String destination) {
        deletedRoute.setModifiedDate(LocalDate.now());
         return this.repo.save(deletedRoute);
     }
+
+public List<Destination> findByIsDeleted(int c) {
+	// TODO Auto-generated method stub
+	return this.repo.findByIsDeleted(c);
+}
 }
 
 //	private DestinationRepo repo;

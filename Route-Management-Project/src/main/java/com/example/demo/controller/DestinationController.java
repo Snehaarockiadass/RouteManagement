@@ -42,7 +42,7 @@ public class DestinationController {
 	@GetMapping(path = "/managingRoute")
 	public ResponseEntity<List<Destination>> getAllRoute() {
 
-		List<Destination> destination = this.blLayer.getAllRoute();
+		List<Destination> destination = this.blLayer.finfByIsDeleted(0);
 
 		return ResponseEntity.status(HttpStatus.OK).body(destination);
 	}
@@ -54,8 +54,8 @@ public class DestinationController {
 		Optional<Destination> dest=	repo.findByDestination(entity.getDestination());
 		if(dest.isPresent() ) {
 			if(dest.get().getIsDeleted()==1){
-				dest.get().setIsDeleted(0);
-				repo.save(dest.get());
+			//	dest.get().setIsDeleted(0);
+				repo.save(entity);
 				return ResponseEntity.status(HttpStatus.CREATED).body(entity);
 			}
 		
@@ -94,16 +94,19 @@ public class DestinationController {
 		
 		
 		Destination dest=repo.findByDestination(destination).get();
+		dest.setIsDeleted(0);
 		
 		dest.setModifiedBy("Admin");
 		dest.setModifiedDate(LocalDate.now());
 		
+		Destination saveRouteInfo=null;
 		
 		dest.setTimeSlots(updateRouteInfo.getTimeSlots());
 		dest.setDropPoints(updateRouteInfo.getDropPoints());
-    	Destination saveRouteInfo = repo.save(dest);
+		
+    	saveRouteInfo = repo.save(dest);
     	
-    		
+    	
 		return ResponseEntity.status(HttpStatus.OK).body(saveRouteInfo);
 	}
     

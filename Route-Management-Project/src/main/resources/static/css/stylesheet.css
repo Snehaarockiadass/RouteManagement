@@ -1051,15 +1051,16 @@ body {
 }
 .column {
 	float: left;
-	width: 50%;
+	width: 30%;
+	margin: 0 10%;
   }
   .bat{
 	  float: right;
 	  margin: 5px;
 	  padding-left: 3%;
 	  padding-right: 3%;
-	  margin-top: 7%;
-	  margin-right: 3%;
+	  margin-top: 18%;
+	  margin-right: 25%;
 	  margin-bottom: 3%;
 	  
   }
@@ -1088,7 +1089,17 @@ body {
 	
 	
 }
-  
+
+    
+
+
+
+
+
+
+
+
+
   /* Clear floats after the columns */
   
 /** button style popup ends**/
