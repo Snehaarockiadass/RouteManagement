@@ -2,8 +2,8 @@
 
 /*----------------------Dynamic table-------------------------------------------------------------------------------*/
 
-//window.sessionStorage;
-//var countPerPage = sessionStorage.getItem("countPerPage");
+window.sessionStorage;
+var countPerPage = sessionStorage.getItem("countPerPage");
 var xhrRouteDetails = new XMLHttpRequest();
 var destinations;
 window.onload = function() {
@@ -20,12 +20,12 @@ function routeProcessResponse() {
 
 		$("#route-info").empty();
 		var arr = JSON.parse(xhrRouteDetails.responseText);
-		//sessionStorage.setItem("routeCount", arr.length);
+		sessionStorage.setItem("routeCount", arr.length);
 		var rowCounter = 0;
 
 		//var len = arr.dropPoints.length;
 
-		for (var i = 0; i < arr.length; i++) {
+		for (var i = arr.length-1; i >= 0; i--) {
 
 			if (arr[i].isDeleted != 1) {
 
@@ -125,7 +125,7 @@ function routeProcessResponse() {
 			}
 
 		}
-		//pager.showPage(1);
+		pager.showPage(1);
 		}
 	
 }
