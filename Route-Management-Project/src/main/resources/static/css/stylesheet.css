@@ -1025,6 +1025,7 @@ body {
 	padding :0.5%;
 	text-align: center;
 	margin-left: 38%;
+	margin-bottom: 2%;
 }
 
 .myOne{
@@ -1046,21 +1047,32 @@ body {
 }
 .rower{
 	width: 100%;
-	margin-top: 3%;
+	margin-top: 2%;
 	margin-left: 5%;
+	box-sizing: border-box;
+	background-color: lightgrey;
+
 }
 .column {
 	float: left;
 	width: 30%;
-	margin: 0 10%;
+	margin-left: 3%;
+	margin-right: 17%;
+	border:blue;
+	margin-top: 2%;
+	
+
+
   }
   .bat{
 	  float: right;
 	  margin: 5px;
-	  padding-left: 3%;
-	  padding-right: 3%;
-	  margin-top: 18%;
-	  margin-right: 25%;
+	  padding-left: 5%;
+	  padding-right:5%;
+	  padding-top:0.5%;
+	  padding-bottom:0.5%;
+	  margin-top: 15%;
+	  margin-right: 45%;
 	  margin-bottom: 3%;
 	  
   }
@@ -1068,11 +1080,16 @@ body {
 	
 	margin-right: 4%;
 	margin-bottom: 2%;
+	padding: 2%;
+	margin-left: 5%;
 }
 .src1{
 	
 	margin-right: 4%;
-	margin-bottom: 2%;
+	margin-bottom: 6%;
+	padding: 2%;
+	margin-left: 5%;
+	
 }
 .label {
     display: block;
@@ -1140,6 +1157,7 @@ padding:15px 0px 0px 0px;
 #showPage{
 padding:15px 0px 0px 15px
 }
+
 
  
 
