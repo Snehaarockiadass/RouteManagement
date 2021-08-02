@@ -213,7 +213,7 @@ function editData(row) {
 		timeSlotsArr.push(editTimeSlots[i])
 	}
 
-	window.location.href = "/routeNext.html?destination=" + editDestination;
+	window.location.href = "/newRoute.html?destination=" + editDestination;
 
 }
 

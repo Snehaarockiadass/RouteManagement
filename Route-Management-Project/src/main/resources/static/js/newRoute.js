@@ -316,7 +316,7 @@ document.getElementById("saveBtn").addEventListener('click' , validateRouteDetai
      funclear();
    }
    if(xhrSaveRouteDetails.readyState == 4 &&  xhrSaveRouteDetails.status == 200){
-	window.location.href="/routemanagement.html";
+	window.location.href="/routeDetails.html";
 }
    
    
