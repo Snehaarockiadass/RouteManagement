@@ -70,24 +70,32 @@ function routeProcessResponse() {
 					var slotSplitted = slot.split(":");
 					slotHour = slotSplitted[0];
 					if (slotHour < 12) {
-						if (slotHour == 00) {
-							listItem.innerHTML = "12" + ":" + slotSplitted[1] + "AM";
+						if (slotHour == 00 ) {
+							listItem.innerHTML = "12" + ":" + slotSplitted[1] + " AM";
 
+						}if(slotHour == 0){
+							listItem.innerHTML= "12" + ":" + slotSplitted[1] + " AM";
 						}
 						else {
-							listItem.innerHTML = slotHour + ":" + slotSplitted[1] + "AM";
+							listItem.innerHTML = slotHour + ":" + slotSplitted[1] + " AM";
 
 						}
 					} else {
 						slotHour = slotHour - 12;
-						if (slotHour < 10) {
-							listItem.innerHTML = "0" + slotHour + ":" + slotSplitted[1] + "PM";
-
-						} else {
-							listItem.innerHTML = slotHour + ":" + slotSplitted[1] + "PM";
+						if(slotHour == 0){
+							listItem.innerHTML= "12" + ":" + slotSplitted[1] + " PM";
 						}
+						else if (slotHour < 10) {
+							listItem.innerHTML = "0" + slotHour + ":" + slotSplitted[1] + " PM";
 
-					}
+						}
+						else {
+							listItem.innerHTML = slotHour + ":" + slotSplitted[1] + " PM";
+						}}
+						
+						
+
+				
 
 
 					list1.appendChild(listItem);

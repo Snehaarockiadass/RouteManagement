@@ -113,7 +113,10 @@ function display1(){
 								}
 					}else{
 						slotHour = slotHour -12;
-						if(slotHour < 10){
+						if(slotHour==0){
+							time= "12"+":" +slotSplitted[1] + " PM";
+						}
+						else if(slotHour < 10){
 							time= "0" + slotHour +":" +slotSplitted[1] + " PM";
 							
 						}else{
@@ -260,8 +263,9 @@ document.getElementById("saveBtn").addEventListener('click' , validateRouteDetai
 	  if (splittedTimeSlot[1].includes("PM")) {
 		  //alert(Number(splittedTimeSlot[1])); 
 		  if (parseInt(splittedTimeSlot[0],10 ) + 12 == 24) {
-			  bookingTimeSlot = "00" + ":" + mins;
+			  bookingTimeSlot = parseInt(splittedTimeSlot[0],10 ) + ":" + mins;
 		  }
+		  
 		  else {
 			  splittedTimeSlotHour = parseInt(splittedTimeSlot[0],10) + 12;
 			  bookingTimeSlot = splittedTimeSlotHour + ":" + mins;
@@ -271,6 +275,9 @@ document.getElementById("saveBtn").addEventListener('click' , validateRouteDetai
 		  if (parseInt(splittedTimeSlot[0],10) < 10) {
 			  bookingTimeSlot = "0" + parseInt(splittedTimeSlot[0],10) + ":" + mins;
 		  }
+		  else if(parseInt(splittedTimeSlot[0],10)==12){
+				bookingTimeSlot = "00" + ":" + mins;
+			}
 		  else {
 			  bookingTimeSlot = parseInt(splittedTimeSlot[0],10) + ":" + mins;
 		  }
@@ -353,103 +360,13 @@ function funclear()
 
     
     
-/* --------------------------------------------------------------------------------------------------------
-
-  
-  
-
-  
-  var xhrRouteDetails = new XMLHttpRequest();
- var delRoute;
-
-var delId;
- var delrow;
-  function deleteRouteDetails(){
-  
  
+
   
-    xhrRouteDetails.open("PUT","http://localhost:6062/api/v1/put/{destination}"+delRoute,true);
- 	
- 	
- 	xhrRouteDetails.setRequestHeader("Content-Type","application/json");
- 	xhrRouteDetails.send(null);
-  
-    xhrRouteDetails.onreadystatechange=deleteRouteInfoProcessResponse;  
- 
- }
- 
- function deleteRouteInfoProcessResponse()
- {
- if (xhrRouteDetails.readyState == 4 &&  xhrRouteDetails.status == 200) {
-   
-     var response = this.responseText;
-     //alert(delrow);
-     delrow.remove(); //tr0
-     alert("Route  Details deleted successfully");
-   }
-   location.reload();
- }
-
-
-
-
-function deleteData(row){
-	delId = row.closest("td").id;
-	//alert(delId); tdeditdelete0
-	var counter=delId.replace("tdeditdelete","");
-	//alert(counter);
-              delrow =document.getElementById("tr"+counter);  //tr0
-              
-                delRoute = delrow.getElementsByTagName("td")[1].innerHTML;
-              //  alert(delRoute);
-                
-                
-}
-
-
-
-var editId;
-var editRow;
-var driverId;
-function editData(row){
-    savingNewRecord = false;
-	
-
-	editId = row.closest("td").id;
-	//alert(editId);
-	var counterEdit=editId.replace("tdeditdelete","");
-	editRow =document.getElementById("tr"+counterEdit);
-	
-	var destination = editRow.getElementsByTagName("td")[0].innerHTML;
-	var dropPoints = editRow.getElementsByTagName("td")[1].innerHTML;
-	var timeSlots = editRow.getElementsByTagName("td")[2].innerHTML;
-	
-	document.getElementById("destination").value = destination;
-	document.getElementById("dropPoint").value = dropPoints;
-	document.getElementById("timeSlot").disabled = timeSlots;
-	
-}
- 
- 
- 
   
 
-/* ---------------------------------------------------------------------------------------------------------------------------------------*/
-
-
-// date formate change
-
-//function formatDate(date, option){
-//	var arr = date.split("-");
-//	
-//	if(option ==1)
-//     var formatedDate = arr[2] + "-" + arr[1] + "-" + arr[0];
-//     else if(option==2) //dd-mm-yyyy
-//     var formatedDate = arr[1] + "-" + arr[0] + "-" + arr[2];
-//  return formatedDate;
-////	
-
-//}
+  
+  
 var destination;
 
 window.onload = function() {
@@ -561,10 +478,15 @@ window.onload = function() {
 								}
 					}else{
 						slotHour = slotHour -12;
-						if(slotHour < 10){
+						if(slotHour==0){
+							time= "12"+":" +slotSplitted[1] + " PM";
+						}
+						else if(slotHour < 10){
 							time= "0" + slotHour +":" +slotSplitted[1] + " PM";
 							
-						}else{
+						}
+						
+						else{
 							time=slotHour + ":" +slotSplitted[1] + " PM";
  						}
  						
