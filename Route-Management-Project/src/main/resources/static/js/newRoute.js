@@ -319,10 +319,19 @@ document.getElementById("saveBtn").addEventListener('click' , validateRouteDetai
  if (xhrSaveRouteDetails.readyState == 4 &&  xhrSaveRouteDetails.status == 201) {
    
      var response = this.responseText;
+    
      alert("Route Details saved successfully");
+      window.location.href="/routeDetails.html";
+     
      funclear();
    }
+    if(xhrSaveRouteDetails.readyState == 4 &&  xhrSaveRouteDetails.status == 201){
+	
+	window.location.href="/routeDetails.html";
+}
+   
    if(xhrSaveRouteDetails.readyState == 4 &&  xhrSaveRouteDetails.status == 200){
+	
 	window.location.href="/routeDetails.html";
 }
    
