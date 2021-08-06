@@ -1,7 +1,7 @@
 
 
 
-
+/*------------------------------------- dynamic textfields for dropPoint starts here------------------------------*/
 var ddloption;
 	var id=1;
 function display(){
@@ -26,9 +26,7 @@ function display(){
 	 inpt.value=addDropPoint;
 	 inpt.disabled=true;
 	 b.appendChild(inpt);
-//	b.setAttribute("id", "t1"+(i)); 
-//    b.innerHTML="<input type='text' style='margin-right:15%;' id='box1' value="+addDropPoint+" disabled=true>";
-    document.getElementById("dropPoint").value="";
+   document.getElementById("dropPoint").value="";
     
     if( addDropPoint == ""){
 		alert("Drop Point cannot be empty");
@@ -74,7 +72,11 @@ function cancelOf(id){
 	
 }
 
+/*------------------------- dynamic text field for drop point ends here---------------------------------------*/
 
+
+
+/*------------------------- dynamic text field for Time slot start here---------------------------------------*/
 var timeid=1;
 function display1(){
 
@@ -95,9 +97,7 @@ function display1(){
 	
 
 	
-	//b.setAttribute("id", "t1"+(i)); 
-//    b.innerHTML="<input type='text' style='margin-right:5%; ' id='dyn1'  disabled=true>";
-    //document.getElementById("timeSlot").value="";
+	
     
     var time;
      var slotSplitted = addTimeSlot.split(":");
@@ -170,10 +170,10 @@ function cancelOfTime(id){
 	
 	
 }
+/*------------------------- dynamic text field for time slot ends here---------------------------------------*/
 
 
-
-
+/*------------------------------saving new details start here----------------------------------*/
 
 var xhrSaveRouteDetails = new XMLHttpRequest();
 
@@ -347,8 +347,7 @@ document.getElementById("saveBtn").addEventListener('click' , validateRouteDetai
    
  }
 
-
-/* -----------------------------------------------------------------------------------------------------------------------*/
+/*------------------------------saving new details ends here----------------------------------*/
 
 
 									//Cancel button -> clear the data which was entered by the admin
@@ -369,11 +368,11 @@ function funclear()
 
     
     
- 
+ /*----------------------------clear ends here--------------------------*/
 
   
   
-
+/*------------------------------------Editing starts here----------------------------------*/
   
   
 var destination;
@@ -428,11 +427,6 @@ window.onload = function() {
 	 inpt.value=route.dropPoints[i].dropPoint;
 	 inpt.disabled=true;
 	 b.appendChild(inpt);
-//	b.setAttribute("id", "t1"+(i)); 
-//    b.innerHTML="<input type='text' style='margin-right:15%;' id='box1' value="+addDropPoint+" disabled=true>";
-   // document.getElementById("dropPoint").value="";
-    
-   
 
 
 
@@ -468,11 +462,7 @@ window.onload = function() {
 	 inpt.setAttribute("id", "t1"+(j));
 	
 
-	
-	//b.setAttribute("id", "t1"+(i)); 
-//    b.innerHTML="<input type='text' style='margin-right:5%; ' id='dyn1'  disabled=true>";
-    //document.getElementById("timeSlot").value="";
-    
+	 
     var time;
      var slotSplitted = route.timeSlots[j].timeSlot.split(":");
         				  slotHour = slotSplitted[0];
@@ -501,14 +491,14 @@ window.onload = function() {
  						
  				}	
    
-  // document.getElementById("timeSlot").value="";
+ 
    	 inpt.value=time;
 	 inpt.disabled=true;
 	 b.appendChild(inpt);
    
    
 dynList = o.querySelectorAll('input[type="text"]')
-//ddloption =  document.getElementById("t1").value;
+
 	
 	for(var i = 0; i < dynList.length; i++)
 	{  
@@ -541,7 +531,7 @@ dynList = o.querySelectorAll('input[type="text"]')
 			
 		}
 		
-		
+	/*-------------------------------------Editing ends here --------------------------------------*/	
 		
 	
 	

@@ -9,8 +9,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.stereotype.Component;
 
-
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,30 +19,19 @@ import lombok.NoArgsConstructor;
 @Document(collection = "destination")
 @Component
 public class Destination {
-	
-@Id
+
+	@Id
 	long destId;
-	public  String destination;
+	public String destination;
 
 	private List<DropPoint> dropPoints;
-	
-	
+
 	private List<TimeSlot> timeSlots;
-	
+
 	int isDeleted;
 	String createdBy;
 	String modifiedBy;
 	LocalDate createdDate;
 	LocalDate modifiedDate;
-
-	
-	// to add a new dropPoint to the existing list
-	public boolean addDropPointToList(DropPoint dropPoint) {
-		return this.dropPoints.add(dropPoint);
-	}
-
-	public boolean addDropPointToList(TimeSlot timeSlot) {
-		return this.timeSlots.add(timeSlot);
-	}
 
 }

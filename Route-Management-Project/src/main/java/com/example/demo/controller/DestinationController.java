@@ -37,134 +37,110 @@ public class DestinationController {
 	@Autowired
 	DestinationRepo repo;
 
-	
-	
 	@GetMapping(path = "/managingRoute")
 	public ResponseEntity<List<Destination>> getAllRoute() {
 
-		List<Destination> destination = this.blLayer.finfByIsDeleted(0);
+		List<Destination> destination = null;
+
+		try {
+			destination = this.blLayer.finfByIsDeleted(0);
+		} catch (Exception e) {
+
+			System.out.println("Problem in getting datas");
+		}
 
 		return ResponseEntity.status(HttpStatus.OK).body(destination);
 	}
 
-
 	@PostMapping(path = "/managingRoute/newRoute")
 	public ResponseEntity<Destination> addNewRoute(@RequestBody Destination entity) {
-		
-		Optional<Destination> dest=	repo.findByDestination(entity.getDestination());
-		if(dest.isPresent() ) {
-			if(dest.get().getIsDeleted()==1){
-			//	dest.get().setIsDeleted(0);
-				repo.save(entity);
-				return ResponseEntity.status(HttpStatus.CREATED).body(entity);
+
+		Destination post = null;
+		try {
+			Optional<Destination> dest = repo.findByDestination(entity.getDestination());
+			if (dest.isPresent()) {
+				if (dest.get().getIsDeleted() == 1) {
+
+					repo.save(entity);
+					return ResponseEntity.status(HttpStatus.CREATED).body(entity);
+				}
+
+				else {
+					return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body(entity);
+				}
+
 			}
-		
-			else {
-				return ResponseEntity.status( HttpStatus.ALREADY_REPORTED).body(entity);
-			}
-				
+
+			post = blLayer.addDestination(entity);
+		} catch (Exception e) {
+
+			System.out.println("Problem in posting your datas");
 		}
-			
-	Destination post = blLayer.addDestination(entity);
-    	
+
 		return ResponseEntity.status(HttpStatus.CREATED).body(post);
 	}
 
-	
-	
-	
-	
-	@PutMapping(path="/put/deleteRouteDetails/{destination}")
-    public ResponseEntity<Destination> deleteRoute(@PathVariable("destination") String destination)
-    {      
-           
-		Destination RouteInfo=this.dlLayer.deleteRoute(destination);
-       
-        return ResponseEntity.status(HttpStatus.OK).body(RouteInfo);
-    }
-	
-	
+	@PutMapping(path = "/put/deleteRouteDetails/{destination}")
+	public ResponseEntity<Destination> deleteRoute(@PathVariable("destination") String destination) {
 
-	
-	
-	@PutMapping(path="/updateRouteInfo/{destination}")
+		Destination RouteInfo = null;
+		try {
+			RouteInfo = this.dlLayer.deleteRoute(destination);
+		} catch (Exception e) {
+
+			System.out.println("Details not deleted yet");
+		}
+
+		return ResponseEntity.status(HttpStatus.OK).body(RouteInfo);
+	}
+
+	@PutMapping(path = "/updateRouteInfo/{destination}")
 	public ResponseEntity<Destination> editRouteDetails(@PathVariable("destination") String destination,
-			@RequestBody Destination updateRouteInfo)
-	{
-		
-		
-		Destination dest=repo.findByDestination(destination).get();
-		dest.setIsDeleted(0);
-		
-		dest.setModifiedBy("Admin");
-		dest.setModifiedDate(LocalDate.now());
-		
-		Destination saveRouteInfo=null;
-		
-		dest.setTimeSlots(updateRouteInfo.getTimeSlots());
-		dest.setDropPoints(updateRouteInfo.getDropPoints());
-		
-    	saveRouteInfo = repo.save(dest);
-    	
-    	
+			@RequestBody Destination updateRouteInfo) {
+		Destination saveRouteInfo = null;
+
+		try {
+			Destination dest = repo.findByDestination(destination).get();
+			dest.setIsDeleted(0);
+
+			dest.setModifiedBy("Admin");
+			dest.setModifiedDate(LocalDate.now());
+
+			dest.setTimeSlots(updateRouteInfo.getTimeSlots());
+			dest.setDropPoints(updateRouteInfo.getDropPoints());
+
+			saveRouteInfo = repo.save(dest);
+		} catch (Exception e) {
+
+			System.out.println("Problem in updating your details");
+		}
+
 		return ResponseEntity.status(HttpStatus.OK).body(saveRouteInfo);
 	}
-    
-   
+
 	@GetMapping(path = "/editRoute/{destination}")
-	public ResponseEntity<Destination> getDestinationDetails(@PathVariable ("destination") String destination){
-		Optional<Destination> details = this.repo.findByDestination(destination);
+	public ResponseEntity<Destination> getDestinationDetails(@PathVariable("destination") String destination) {
+		Optional<Destination> details = null;
+		try {
+			details = this.repo.findByDestination(destination);
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
 		return ResponseEntity.status(HttpStatus.OK).body(details.get());
 	}
 
 	@GetMapping(path = "/managigRoute/all/destName")
 	public ResponseEntity<List<String>> getdestName() {
-		List<String> destName = this.dlLayer.findAllDestName();
+		List<String> destName = null;
+		try {
+			destName = this.dlLayer.findAllDestName();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			System.out.println("Probelm in getting all the destination name");
+		}
 
 		return ResponseEntity.status(HttpStatus.OK).body(destName);
 	}
-  
-
-//	@PutMapping(path = "/route/addDropPoint")
-//	public ResponseEntity<Destination> addDropPoint(@RequestBody Destination destInfo) {
-//
-//		Destination isDeleted = destInfo;
-//    	isDeleted.setIsDeleted('0');
-//    	
-//    	Destination modifiedBy=destInfo;
-//    	modifiedBy.setModifiedBy("Admin");
-//    	
-//    	Destination modifiedDate=destInfo;
-//    	modifiedDate.setModifiedDate(LocalDate.now());
-//		
-//		
-//		Destination post = dlLayer.addDropPoint(destInfo);
-//
-//		return ResponseEntity.status(HttpStatus.CREATED).body(post);
-//	}
-//
-//	@PutMapping(path = "/route/addTimeSlot")
-//	public ResponseEntity<Destination> addTimeSlot(@RequestBody Destination destInfo) {
-//
-//		
-//
-//		Destination isDeleted = destInfo;
-//    	isDeleted.setIsDeleted('0');
-//    	
-//    	Destination modifiedBy=destInfo;
-//    	modifiedBy.setModifiedBy("Admin");
-//    	
-//    	Destination modifiedDate=destInfo;
-//    	modifiedDate.setModifiedDate(LocalDate.now());
-//		
-//		Destination post = dlLayer.addTimeSlot(destInfo);
-//
-//		return ResponseEntity.status(HttpStatus.CREATED).body(post);
-//	}
-//	
-//	
-
-	
 
 }
-
